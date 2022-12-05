@@ -1,26 +1,41 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
-using AdventOfCode2022.DayFour;
+using AdventOfCode2022.Day5;
+using AdventOfCode2022.Util;
 
 
-var input = @"2-4,6-8
-2-3,4-5
-5-7,7-9
-2-8,3-7
-6-6,4-6
-2-6,4-8";
-
-//Console.WriteLine(DayThreeProblems.CalculatePackPriorityScore(input.Split('\n')));
-//Console.WriteLine(DayThreeProblems.CalculatePackPriorityScoreFromInputFile("DayThree\\D3.txt"));
+var problems = new Day5Problems();
+DoAllProblems(problems);
 
 
-Console.WriteLine(DayFourProblems.CalculateDuplicateAssignmentScore(input.Split('\n')));
-Console.WriteLine(DayFourProblems.CalculateDuplicateAssignmentScoreFromInputFile("DayFour\\D4.txt"));
+void DoAllProblems(Problems probs)
+{
+  TryPrintResult(probs.Problem1TestInput, "Problem 1 Test Input");
+  TryPrintResult(probs.Problem1FullInput, "Problem 1 Full Input");
+  TryPrintResult(probs.Problem2TestInput, "Problem 2 Test Input");
+  TryPrintResult(probs.Problem2FullInput, "Problem 2 Full Input");
+}
+
+void TryPrintResult(Func<int> attempter, string description)
+{
+  try
+  {
+    var result = attempter();
+
+    Console.WriteLine($"{description}:");
+    Console.WriteLine(result);
+  }
+  catch (NotImplementedException e)
+  {
+    Console.WriteLine($"{description} not implemented");
+  }
+  catch(Exception e)
+  {
+    Console.WriteLine($"{description} failed:");
+    Console.WriteLine(e);
+  }
 
 
-Console.WriteLine(DayFourProblems.CalculateOverlapAssignmentScore(input.Split('\n')));
-Console.WriteLine(DayFourProblems.CalculateOverlapAssignmentScoreFromInputFile("DayFour\\D4.txt"));
-
-//Console.WriteLine(DayTwoProblems.CalculateRpsScoreWithInstructions(input.Split('\n')));
-//Console.WriteLine(DayTwoProblems.CalculateRpsScoreWithInstructionsFromInputFile("DayTwo\\D2.txt"));
+  Console.WriteLine();
+}
