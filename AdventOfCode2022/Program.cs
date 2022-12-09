@@ -17,7 +17,7 @@ void DoAllProblems(Problems probs)
   TryPrintResult(probs.Problem2FullInput, "Problem 2 Full Input");
 }
 
-void TryPrintResult(Func<int> attempter, string description)
+void TryPrintResult(Func<string> attempter, string description)
 {
   try
   {
