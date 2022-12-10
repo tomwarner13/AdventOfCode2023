@@ -34,8 +34,8 @@ $ ls
 5626152 d.ext
 7214296 k";
 
-    public override string FullInputFilePath => $"Day{Day}\\D{Day}.txt";
-    public const int Day = 7;
+
+    public override int Day => 7;
 
     private const int MaxDirSizeToCount = 100000;
 

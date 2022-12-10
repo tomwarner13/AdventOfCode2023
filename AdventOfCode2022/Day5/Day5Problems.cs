@@ -19,7 +19,7 @@ move 1 from 2 to 1
 move 3 from 1 to 3
 move 2 from 2 to 1
 move 1 from 1 to 2";
-    public override string FullInputFilePath => "Day5\\D5.txt";
+    public override int Day => 5;
 
     private readonly Regex MovePattern = new("move (\\d+) from (\\d+) to (\\d+)", RegexOptions.Compiled);
 

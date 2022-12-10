@@ -12,7 +12,7 @@ namespace AdventOfCode2022.Day6
   {
     public override string TestInput => @"zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw";
 
-    public override string FullInputFilePath => "Day6\\D6.txt";
+    public override int Day => 6;
 
     public override string Problem1(string[] input)
     {

@@ -11,6 +11,7 @@
     <None Remove="Day5\D5.txt" />
     <None Remove="Day6\D6.txt" />
     <None Remove="Day7\D7.txt" />
+    <None Remove="Day8\D8.txt" />
     <None Remove="DayFour\D4.txt" />
     <None Remove="DayOne\D1P1.txt" />
     <None Remove="DayThree\D3.txt" />
@@ -25,6 +26,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Day5\D5.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Day8\D8.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DayOne\D1P1.txt">
