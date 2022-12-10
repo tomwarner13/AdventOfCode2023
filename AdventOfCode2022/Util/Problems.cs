@@ -19,13 +19,13 @@ namespace AdventOfCode2022.Util
 
     public string Problem1TestInput()
     {
-      var lines = TestInput.Split('\n');
+      var lines = TestInput.Split('\n').Select(s => s.Trim()).ToArray();
       return Problem1(lines);
     }
 
     public string Problem2TestInput()
     {
-      var lines = TestInput.Split('\n');
+      var lines = TestInput.Split('\n').Select(s => s.Trim()).ToArray();
       return Problem2(lines);
     }
 
