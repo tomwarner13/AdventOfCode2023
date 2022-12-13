@@ -18,6 +18,7 @@
     <None Remove="Day17\D17.txt" />
     <None Remove="Day18\D18.txt" />
     <None Remove="Day19\D19.txt" />
+    <None Remove="Day1\D1.txt" />
     <None Remove="Day20\D20.txt" />
     <None Remove="Day21\D21.txt" />
     <None Remove="Day22\D22.txt" />
@@ -30,7 +31,6 @@
     <None Remove="Day8\D8.txt" />
     <None Remove="Day9\D9.txt" />
     <None Remove="DayFour\D4.txt" />
-    <None Remove="DayOne\D1P1.txt" />
     <None Remove="DayThree\D3.txt" />
     <None Remove="DayTwo\D2.txt" />
   </ItemGroup>
@@ -99,7 +99,7 @@
     <EmbeddedResource Include="Day8\D8.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DayOne\D1P1.txt">
+    <EmbeddedResource Include="Day1\D1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DayFour\D4.txt">

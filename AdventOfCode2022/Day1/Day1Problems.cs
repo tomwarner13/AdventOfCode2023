@@ -5,10 +5,37 @@ using System.Text;
 using System.Threading.Tasks;
 using AdventOfCode2022.Util;
 
-namespace AdventOfCode2022.DayOne;
+namespace AdventOfCode2022.Day1;
 
-public static class DayOneProblems
+public class Day1Problems : Problems
 {
+  public override string TestInput => @"1000
+2000
+3000
+
+4000
+
+5000
+6000
+
+7000
+8000
+9000
+
+10000";
+
+  public override int Day => 1;
+
+  public override string Problem1(string[] input)
+  {
+    return CalculateMostCalories(input).ToString();
+  }
+
+  public override string Problem2(string[] input)
+  {
+    return CalculateTopNCalories(input, 3).ToString();
+  }
+
   public static int CalculateMostCalories(IEnumerable<string> input)
   {
     var maxCalories = 0;
@@ -35,12 +62,6 @@ public static class DayOneProblems
     return maxCalories;
   }
 
-  public static int CalculateMostCaloriesFromInputFile(string filepath)
-  {
-    var input = File.ReadAllLines(filepath);
-    return CalculateMostCalories(input);
-  }
-
   public static int CalculateTopNCalories(IEnumerable<string> input, int topNumber)
   {
     var allCalories = new List<int>();
@@ -64,11 +85,5 @@ public static class DayOneProblems
       allCalories.Add(curCalories);
 
     return allCalories.OrderByDescending(x => x).Take(topNumber).Sum();
-  }
-
-  public static int CalculateTopNCaloriesFromInputFile(string filepath, int topN)
-  {
-    var input = File.ReadAllLines(filepath);
-    return CalculateTopNCalories(input, topN);
   }
 }
