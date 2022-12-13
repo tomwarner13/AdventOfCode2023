@@ -3,12 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdventOfCode2022.Util;
 
-namespace AdventOfCode2022.DayTwo
+namespace AdventOfCode2022.Day2
 {
-  public static class DayTwoProblems
+  public class Day2Problems : Problems
   {
-    public static int CalculateRpsScore(IEnumerable<string> input)
+    public override string TestInput => @"A Y
+B X
+C Z";
+
+    public override int Day => 2;
+    public override string Problem1(string[] input)
+    {
+      return CalculateRpsScore(input).ToString();
+    }
+
+    public override string Problem2(string[] input)
+    {
+      return CalculateRpsScoreWithInstructions(input).ToString();
+    }
+
+
+    private static int CalculateRpsScore(IEnumerable<string> input)
     {
       var total = 0;
       foreach (var line in input)
@@ -20,7 +37,7 @@ namespace AdventOfCode2022.DayTwo
       return total;
     }
 
-    public static int CalculateRpsScoreWithInstructions(IEnumerable<string> input)
+    private static int CalculateRpsScoreWithInstructions(IEnumerable<string> input)
     {
       var total = 0;
       foreach (var line in input)
@@ -31,19 +48,6 @@ namespace AdventOfCode2022.DayTwo
 
       return total;
     }
-
-    public static int CalculateRpsScoreFromInputFile(string filepath)
-    {
-      var input = File.ReadAllLines(filepath);
-      return CalculateRpsScore(input);
-    }
-
-    public static int CalculateRpsScoreWithInstructionsFromInputFile(string filepath)
-    {
-      var input = File.ReadAllLines(filepath);
-      return CalculateRpsScoreWithInstructions(input);
-    }
-
 
     private static (RPS Opponent, RPS Own) ParseBasicInput(string line)
     {
