@@ -1,11 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
-using AdventOfCode2022.Day12;
+using AdventOfCode2022.Day13;
 using AdventOfCode2022.Util;
 
 
-var problems = new Day12Problems();
+var problems = new Day13Problems();
 DoAllProblems(problems);
 
 
@@ -26,7 +26,7 @@ void TryPrintResult(Func<string> attempter, string description)
     Console.WriteLine($"{description}:");
     Console.WriteLine(result);
   }
-  catch (NotImplementedException e)
+  catch (NotImplementedException)
   {
     Console.WriteLine($"{description} not implemented");
   }
