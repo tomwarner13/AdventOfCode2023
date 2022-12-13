@@ -1,14 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AdventOfCode2022.Util;
 
-namespace AdventOfCode2022.DayFour
+namespace AdventOfCode2022.Day4
 {
-  public static class DayFourProblems
+  public class Day4Problems : Problems
   {
-    public static int CalculateDuplicateAssignmentScore(IEnumerable<string> input)
+    public override string TestInput => @"2-4,6-8
+2-3,4-5
+5-7,7-9
+2-8,3-7
+6-6,4-6
+2-6,4-8";
+    public override int Day => 4;
+    public override string Problem1(string[] input)
+    {
+      return CalculateDuplicateAssignmentScore(input).ToString();
+    }
+
+    public override string Problem2(string[] input)
+    {
+      return CalculateOverlapAssignmentScore(input).ToString();
+    }
+
+    private static int CalculateDuplicateAssignmentScore(IEnumerable<string> input)
     {
       var total = 0;
       foreach (var line in input)
@@ -23,13 +36,7 @@ namespace AdventOfCode2022.DayFour
       return total;
     }
 
-    public static int CalculateOverlapAssignmentScoreFromInputFile(string filepath)
-    {
-      var input = File.ReadAllLines(filepath);
-      return CalculateOverlapAssignmentScore(input);
-    }
-
-    public static int CalculateOverlapAssignmentScore(IEnumerable<string> input)
+    private static int CalculateOverlapAssignmentScore(IEnumerable<string> input)
     {
       var total = 0;
       foreach (var line in input)
@@ -42,12 +49,6 @@ namespace AdventOfCode2022.DayFour
       }
 
       return total;
-    }
-
-    public static int CalculateDuplicateAssignmentScoreFromInputFile(string filepath)
-    {
-      var input = File.ReadAllLines(filepath);
-      return CalculateDuplicateAssignmentScore(input);
     }
 
     private static ((int, int) first, (int, int) second) ParseLine(string line)

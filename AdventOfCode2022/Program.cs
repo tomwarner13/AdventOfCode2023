@@ -3,7 +3,7 @@
 using AdventOfCode2022.Day1;
 using AdventOfCode2022.Day2;
 using AdventOfCode2022.Day3;
-//using AdventOfCode2022.Day4;
+using AdventOfCode2022.Day4;
 using AdventOfCode2022.Day5;
 using AdventOfCode2022.Day6;
 using AdventOfCode2022.Day7;
@@ -26,8 +26,6 @@ using AdventOfCode2022.Day23;
 using AdventOfCode2022.Day24;
 using AdventOfCode2022.Day25;
 using AdventOfCode2022.Util;
-
-DoAllProblems(new Day3Problems());
 
 var problems = new Day13Problems();
 DoAllProblems(problems);
