@@ -1,14 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AdventOfCode2022.Util;
 
-namespace AdventOfCode2022.DayThree
+namespace AdventOfCode2022.Day3
 {
-  public static class DayThreeProblems
-  {
-    public static int CalculatePackPriorityScore(IEnumerable<string> input)
+  public class Day3Problems : Problems
+  { public override string TestInput => @"vJrwpWtwJgWrhcsFMMfFFhFp
+jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
+PmmdzqPrVvPwwTWBwg
+wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
+ttgJtRGJQctTZtZT
+CrZsJsPPZsGzwwsLwLmpwMDw";
+    public override int Day => 3;
+    public override string Problem1(string[] input)
+    {
+      return CalculatePackPriorityScore(input).ToString();
+    }
+
+    public override string Problem2(string[] input)
+    {
+      return CalculateBadgePriorityScore(input).ToString();
+    }
+
+    private static int CalculatePackPriorityScore(IEnumerable<string> input)
     {
       var total = 0;
       foreach (var line in input)
@@ -22,13 +34,7 @@ namespace AdventOfCode2022.DayThree
       return total;
     }
 
-    public static int CalculatePackPriorityScoreFromInputFile(string filepath)
-    {
-      var input = File.ReadAllLines(filepath);
-      return CalculatePackPriorityScore(input);
-    }
-
-    public static int CalculateBadgePriorityScore(IEnumerable<string> input)
+    private static int CalculateBadgePriorityScore(IEnumerable<string> input)
     {
       var total = 0;
       var accumulator = new string[3];
@@ -50,12 +56,6 @@ namespace AdventOfCode2022.DayThree
       }
 
       return total;
-    }
-
-    public static int CalculateBadgePriorityScoreFromInputFile(string filepath)
-    {
-      var input = File.ReadAllLines(filepath);
-      return CalculateBadgePriorityScore(input);
     }
 
     private static char FindCommonCharBetweenLines(string[] lines)
