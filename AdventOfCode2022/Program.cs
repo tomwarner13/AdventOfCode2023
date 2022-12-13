@@ -1,11 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
-using AdventOfCode2022.Day11;
+using AdventOfCode2022.Day12;
 using AdventOfCode2022.Util;
 
 
-var problems = new Day11Problems();
+var problems = new Day12Problems();
 DoAllProblems(problems);
 
 
