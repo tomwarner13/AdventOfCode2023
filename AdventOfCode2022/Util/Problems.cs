@@ -10,7 +10,7 @@ namespace AdventOfCode2022.Util
   {
     public abstract string TestInput { get; }
 
-    public string FullInputFilePath => $"Day{Day}\\D{Day}.txt";
+    private string FullInputFilePath => $"Day{Day}\\D{Day}.txt";
 
     public abstract int Day { get; }
 
