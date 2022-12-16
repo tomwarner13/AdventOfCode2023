@@ -26,12 +26,12 @@ public class Day1Problems : Problems
 
   public override int Day => 1;
 
-  public override string Problem1(string[] input)
+  public override string Problem1(string[] input, bool isTestInput)
   {
     return CalculateMostCalories(input).ToString();
   }
 
-  public override string Problem2(string[] input)
+  public override string Problem2(string[] input, bool isTestInput)
   {
     return CalculateTopNCalories(input, 3).ToString();
   }

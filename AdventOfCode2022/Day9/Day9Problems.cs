@@ -21,7 +21,7 @@ R 2";
 
     public override int Day => 9;
 
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       var directions = ParseInputDirections(input);
 
@@ -42,7 +42,7 @@ R 2";
       return positionsVisitedByTail.Count.ToString();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       var directions = ParseInputDirections(input);
 

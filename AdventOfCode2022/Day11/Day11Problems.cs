@@ -41,7 +41,7 @@ Monkey 3:
 
     public override int Day => 11;
 
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       var monkeyList = new List<Monkey>();
 
@@ -110,7 +110,7 @@ Monkey 3:
       return (orderedCounts[0] * orderedCounts[1]).ToString();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       var monkeyList = new List<Monkey>();
 

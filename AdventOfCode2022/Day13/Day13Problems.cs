@@ -36,7 +36,7 @@ namespace AdventOfCode2022.Day13
 
     public override int Day => 13;
 
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       JArray packet1 = null;
       JArray packet2 = null;
@@ -79,7 +79,7 @@ namespace AdventOfCode2022.Day13
       return result.ToString();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       const string divider1 = "[[2]]";
       const string divider2 = "[[6]]";

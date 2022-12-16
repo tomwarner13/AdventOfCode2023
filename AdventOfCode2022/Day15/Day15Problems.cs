@@ -26,14 +26,11 @@ Sensor at x=20, y=1: closest beacon is at x=15, y=3";
 
     public override int Day => 15;
 
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       var validSensors = new List<Sensor>();
       var beaconsOnHorizontalRow = new HashSet<GridPoint>();
-
-      var firstTestInput = TestInput.Split(Environment.NewLine).First();
-
-      var isTestInput = input[0] == firstTestInput; //have to use different verticals for test vs full, gross hack
+      
       var horizontal = isTestInput ? 10 : 2000000;
 
       foreach (var line in input)
@@ -71,13 +68,10 @@ Sensor at x=20, y=1: closest beacon is at x=15, y=3";
       return totalExcludedPoints.ToString();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       var allSensors = new List<Sensor>();
-
-      var firstTestInput = TestInput.Split("\r\n").First();
-
-      var isTestInput = input[0] == firstTestInput; //have to use different verticals for test vs full, gross hack
+      
       var boundaries = isTestInput ? 20 : 4_000_000;
 
       foreach (var line in input)

@@ -159,7 +159,7 @@ noop";
 
     public override int Day => 10;
 
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       var cpu = new Cpu();
 
@@ -180,7 +180,7 @@ noop";
       return cpu.GetSignal().ToString();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       var cpu = new Cpu();
 

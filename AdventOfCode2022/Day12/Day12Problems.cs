@@ -19,7 +19,7 @@ abdefghi";
 
     public override int Day => 12;
 
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       GridPoint start = new(-1, -1);
       GridPoint end = new(-1, -1);
@@ -62,7 +62,7 @@ abdefghi";
       return result.ToString();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       GridPoint start = new(-1, -1);
       GridPoint end = new(-1, -1);

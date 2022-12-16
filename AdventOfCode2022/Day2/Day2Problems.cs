@@ -14,12 +14,12 @@ B X
 C Z";
 
     public override int Day => 2;
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       return CalculateRpsScore(input).ToString();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       return CalculateRpsScoreWithInstructions(input).ToString();
     }

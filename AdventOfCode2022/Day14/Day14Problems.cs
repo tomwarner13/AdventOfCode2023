@@ -13,7 +13,7 @@ namespace AdventOfCode2022.Day14
 
     public override int Day => 14;
 
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       var grid = new RockFormations();
 
@@ -64,7 +64,7 @@ namespace AdventOfCode2022.Day14
       return grains.ToString();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       var grid = new RockFormations();
 

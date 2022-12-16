@@ -11,12 +11,12 @@ namespace AdventOfCode2022.Day4
 6-6,4-6
 2-6,4-8";
     public override int Day => 4;
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       return CalculateDuplicateAssignmentScore(input).ToString();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       return CalculateOverlapAssignmentScore(input).ToString();
     }

@@ -39,7 +39,7 @@ $ ls
 
     private const int MaxDirSizeToCount = 100000;
 
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       var rootDirectory = new Directory((Directory)null, "/");
       var currentDirectory = rootDirectory;
@@ -100,7 +100,7 @@ $ ls
       return total.ToString();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       var rootDirectory = new Directory((Directory)null, "/");
       var currentDirectory = rootDirectory;

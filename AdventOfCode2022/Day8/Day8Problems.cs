@@ -17,7 +17,7 @@ namespace AdventOfCode2022.Day8
 
     public override int Day => 8;
 
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       var grid = ProcessInput(input);
       var visibleTrees = new HashSet<Tree>();
@@ -37,7 +37,7 @@ namespace AdventOfCode2022.Day8
       return visibleTrees.Count().ToString();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       var grid = ProcessInput(input);
 

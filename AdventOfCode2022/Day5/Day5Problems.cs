@@ -23,7 +23,7 @@ move 1 from 1 to 2";
 
     private readonly Regex MovePattern = new("move (\\d+) from (\\d+) to (\\d+)", RegexOptions.Compiled);
 
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       //first lines: use a stack to get the lines in the correct order when we encounter the line with numbers on it
       var settingUp = true;
@@ -91,7 +91,7 @@ move 1 from 1 to 2";
       return result.ToString();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       var settingUp = true;
       var moving = false;

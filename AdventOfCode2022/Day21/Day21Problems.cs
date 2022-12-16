@@ -12,12 +12,12 @@ namespace AdventOfCode2022.Day21
 
     public override int Day => 21;
 
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       throw new NotImplementedException();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {    
       throw new NotImplementedException();
     }

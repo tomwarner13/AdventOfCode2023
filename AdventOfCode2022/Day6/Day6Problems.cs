@@ -14,7 +14,7 @@ namespace AdventOfCode2022.Day6
 
     public override int Day => 6;
 
-    public override string Problem1(string[] input)
+    public override string Problem1(string[] input, bool isTestInput)
     {
       var line = input[0];
       var buf = new Queue<char>();
@@ -38,7 +38,7 @@ namespace AdventOfCode2022.Day6
       throw new ArgumentException();
     }
 
-    public override string Problem2(string[] input)
+    public override string Problem2(string[] input, bool isTestInput)
     {
       var line = input[0];
       var buf = new Queue<char>();
