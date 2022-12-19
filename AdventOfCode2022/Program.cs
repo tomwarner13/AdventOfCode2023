@@ -27,7 +27,7 @@ using AdventOfCode2022.Day24;
 using AdventOfCode2022.Day25;
 using AdventOfCode2022.Util;
 
-var problems = new Day15Problems();
+var problems = new Day17Problems();
 DoAllProblems(problems);
 
 

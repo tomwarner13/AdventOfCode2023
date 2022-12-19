@@ -42,6 +42,16 @@ namespace AdventOfCode2022.Util
       return !a.Equals(b);
     }
 
+    public static GridPoint operator +(GridPoint a, GridPoint b)
+    {
+      return new GridPoint(a.X + b.X, a.Y + b.Y);
+    }
+
+    public static GridPoint operator -(GridPoint a, GridPoint b)
+    {
+      return new GridPoint(a.X - b.X, a.Y - b.Y);
+    }
+
     public override string ToString() => $"{X}:{Y}";
   }
 }
