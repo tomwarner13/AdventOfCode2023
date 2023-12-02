@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using AdventOfCode2022.Util;
+using AdventOfCode2023.Util;
 
-namespace AdventOfCode2022.Day$1
+namespace AdventOfCode2023.Day$1
 {
   public class Day$1Problems : Problems
   {
