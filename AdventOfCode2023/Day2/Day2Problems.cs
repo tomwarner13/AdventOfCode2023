@@ -1,138 +1,115 @@
-﻿using AdventOfCode2023.Util;
+﻿using System.Text.RegularExpressions;
+using AdventOfCode2023.Util;
 
 namespace AdventOfCode2023.Day2
 {
   public class Day2Problems : Problems
   {
-    public override string TestInput => @"A Y
-B X
-C Z";
+    public override string TestInput => @"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green";
 
     public override int Day => 2;
     public override string Problem1(string[] input, bool isTestInput)
     {
-      return CalculateRpsScore(input).ToString();
+      return CalculateTotalPossibleGames(input).ToString();
     }
 
     public override string Problem2(string[] input, bool isTestInput)
     {
-      return CalculateRpsScoreWithInstructions(input).ToString();
+      return CalculateTotalMinCubePower(input).ToString();
     }
 
-
-    private static int CalculateRpsScore(IEnumerable<string> input)
+    private static int CalculateTotalPossibleGames(string[] input)
     {
-      var total = 0;
-      foreach (var line in input)
+      var idSum = 0;
+      const int totalRed = 12;
+      const int totalBlue = 14;
+      const int totalGreen = 13;
+
+      foreach (var inputLine in input)
       {
-        var (opponent, own) = ParseBasicInput(line);
-        total += CalculateGameScore(opponent, own);
+        var newGame = new CubeGame(inputLine);
+        if (newGame.IsPossible(totalRed, totalBlue, totalGreen)) idSum += newGame.Id;
+      }
+      
+      return idSum;
+    }
+    private static int CalculateTotalMinCubePower(string[] input)
+    {
+      var sum = 0;
+
+      foreach (var inputLine in input)
+      {
+        var newGame = new CubeGame(inputLine);
+        sum += newGame.CalculateMinimumCubePower();
+      }
+      
+      return sum;
+    }
+
+    private class CubeGame
+    {
+      public int Id { get; }
+      public List<GameResult> Results { get; }
+
+      public CubeGame(string rawInput)
+      {
+        var parts = rawInput.Split(':');
+        var rawId = parts[0].Replace("Game ", "");
+        Id = int.Parse(rawId);
+
+        var rawResults = parts[1].Split(';');
+        Results = rawResults.Select(s => new GameResult(s)).ToList();
+      }
+      
+      public bool IsPossible(int redTotal, int blueTotal, int greenTotal)
+      {
+        return Results.All(r => r.IsPossible(redTotal, blueTotal, greenTotal));
       }
 
-      return total;
-    }
-
-    private static int CalculateRpsScoreWithInstructions(IEnumerable<string> input)
-    {
-      var total = 0;
-      foreach (var line in input)
+      public int CalculateMinimumCubePower()
       {
-        var (opponent, own) = ParseDependentInput(line);
-        total += CalculateGameScore(opponent, own);
-      }
+        var minRed = 0;
+        var minBlue = 0;
+        var minGreen = 0;
 
-      return total;
-    }
-
-    private static (RPS Opponent, RPS Own) ParseBasicInput(string line)
-    {
-      return (TranslateInput(line[0]), TranslateInput(line[2]));
-    }
-
-    private static (RPS Opponent, RPS Own) ParseDependentInput(string line)
-    {
-      var opponent = TranslateInput(line[0]);
-
-      RPS own;
-      var instruction = line[2];
-      switch (instruction)
-      {
-        case 'X':
-          own = GetLosingMove(opponent);
-          break;
-        case 'Y':
-          own = opponent;
-          break;
-        case 'Z':
-          own = GetWinningMove(opponent);
-          break;
-        default:
-          throw new ArgumentException();
-      }
-
-      return (opponent, own);
-    }
-
-    private static RPS TranslateInput(char input)
-    {
-      return input switch
-      {
-        'A' or 'X' => RPS.Rock,
-        'B' or 'Y' => RPS.Paper,
-        'C' or 'Z' => RPS.Scissors,
-        _ => throw new ArgumentException($"invalid input: '{input}'"),
-      };
-    }
-
-    private static RPS GetLosingMove(RPS opponent)
-    {
-      return opponent switch
-      {
-        RPS.Paper => RPS.Rock,
-        RPS.Rock => RPS.Scissors,
-        RPS.Scissors => RPS.Paper,
-        _ => throw new ArgumentException($"invalid input: '{opponent}'"),
-      };
-    }
-
-    private static RPS GetWinningMove(RPS opponent)
-    {
-      return opponent switch
-      {
-        RPS.Paper => RPS.Scissors,
-        RPS.Rock => RPS.Paper,
-        RPS.Scissors => RPS.Rock,
-        _ => throw new ArgumentException($"invalid input: '{opponent}'"),
-      };
-    }
-
-    private static int CalculateGameScore(RPS opponentMove, RPS ownMove)
-    {
-      var total = (int)ownMove;
-
-      if (opponentMove == ownMove)
-      {
-        total += 3; //draw
-      }
-      else
-      {
-        if(
-          (opponentMove == RPS.Rock && ownMove == RPS.Paper) || //paper beats rock
-          (opponentMove == RPS.Paper && ownMove == RPS.Scissors) || //scissors beats paper
-          (opponentMove == RPS.Scissors && ownMove == RPS.Rock)) //rock beats scissors
+        foreach (var result in Results)
         {
-          total += 6; //victory
+          if (result.RedCubes > minRed) minRed = result.RedCubes;
+          if (result.BlueCubes > minBlue) minBlue = result.BlueCubes;
+          if (result.GreenCubes > minGreen) minGreen = result.GreenCubes;
         }
-      }
 
-      return total;
+        return minRed * minBlue * minGreen;
+      }
     }
 
-    private enum RPS
+    private class GameResult
     {
-      Rock = 1,
-      Paper = 2,
-      Scissors = 3
+      public int RedCubes { get; }
+      public int BlueCubes { get; }
+      public int GreenCubes { get; }
+
+      public GameResult(string rawInput)
+      {
+        var redRegex = new Regex("(\\d+) red", RegexOptions.Compiled);
+        var blueRegex = new Regex("(\\d+) blue", RegexOptions.Compiled);
+        var greenRegex = new Regex("(\\d+) green", RegexOptions.Compiled);
+        
+        var redMatch = redRegex.Match(rawInput);
+        var blueMatch = blueRegex.Match(rawInput);
+        var greenMatch = greenRegex.Match(rawInput);
+
+        RedCubes = redMatch.Success ? int.Parse(redMatch.Groups[1].ToString()) : 0;
+        BlueCubes = blueMatch.Success ? int.Parse(blueMatch.Groups[1].ToString()) : 0;
+        GreenCubes = greenMatch.Success ? int.Parse(greenMatch.Groups[1].ToString()) : 0;
+      }
+
+      public bool IsPossible(int redTotal, int blueTotal, int greenTotal)
+        => RedCubes <= redTotal && BlueCubes <= blueTotal && GreenCubes <= greenTotal;
     }
   }
 }
