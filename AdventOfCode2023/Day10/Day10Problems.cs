@@ -1,11 +1,11 @@
 ﻿using System.Text;
 using AdventOfCode2023.Util;
 
-namespace AdventOfCode2023.Day10
+namespace AdventOfCode2023.Day10;
+
+public class Day10Problems : Problems
 {
-  public class Day10Problems : Problems
-  {
-    public override string TestInput => @"addx 15
+  public override string TestInput => @"addx 15
 addx -11
 addx 6
 addx -3
@@ -152,113 +152,112 @@ noop
 noop
 noop";
 
-    public override int Day => 10;
+  public override int Day => 10;
 
-    public override string Problem1(string[] input, bool isTestInput)
+  public override string Problem1(string[] input, bool isTestInput)
+  {
+    var cpu = new Cpu();
+
+    foreach (var line in input)
     {
-      var cpu = new Cpu();
-
-      foreach (var line in input)
+      if (line == "noop")
       {
-        if (line == "noop")
-        {
-          cpu.NoOp();
-        }
-        else
-        {
-          var parts = line.Split(' ');
-          var x = int.Parse(parts[1]);
-          cpu.AddX(x);
-        }
+        cpu.NoOp();
       }
-
-      return cpu.GetSignal().ToString();
+      else
+      {
+        var parts = line.Split(' ');
+        var x = int.Parse(parts[1]);
+        cpu.AddX(x);
+      }
     }
 
-    public override string Problem2(string[] input, bool isTestInput)
+    return cpu.GetSignal().ToString();
+  }
+
+  public override string Problem2(string[] input, bool isTestInput)
+  {
+    var cpu = new Cpu();
+
+    foreach (var line in input)
     {
-      var cpu = new Cpu();
-
-      foreach (var line in input)
+      if (line == "noop")
       {
-        if (line == "noop")
-        {
-          cpu.NoOp();
-        }
-        else
-        {
-          var parts = line.Split(' ');
-          var x = int.Parse(parts[1]);
-          cpu.AddX(x);
-        }
+        cpu.NoOp();
       }
-
-      return cpu.GetDrawing();
+      else
+      {
+        var parts = line.Split(' ');
+        var x = int.Parse(parts[1]);
+        cpu.AddX(x);
+      }
     }
 
-    private class Cpu
+    return cpu.GetDrawing();
+  }
+
+  private class Cpu
+  {
+    private int _cycleCount;
+    private int _registerX;
+    private int _signal;
+    private StringBuilder _crt; //in OUR CHILDREN'S SCHOOLS !?!?!?!?!
+
+    public Cpu()
     {
-      private int _cycleCount;
-      private int _registerX;
-      private int _signal;
-      private StringBuilder _crt; //in OUR CHILDREN'S SCHOOLS !?!?!?!?!
+      _cycleCount = 0;
+      _registerX = 1;
+      _signal = 0;
+      _crt = new StringBuilder();
+    }
 
-      public Cpu()
+    public int GetSignal() => _signal;
+
+    public string GetDrawing() => _crt.ToString();
+
+    public void NoOp()
+    {
+      AdvanceCycle();
+    }
+
+    public void AddX(int x)
+    {
+      AdvanceCycle();
+      AdvanceCycle();
+      _registerX += x;
+    }
+
+    private void AdvanceCycle()
+    {
+      DrawPixel();
+
+      _cycleCount++;
+      if (ShouldTrackSignal())
+        _signal += _registerX * _cycleCount;
+
+      if (_cycleCount % 40 == 0)
+        _crt.AppendLine();
+    }
+
+    private void DrawPixel()
+    {
+      char pixel;
+      var horizontalPos = _cycleCount % 40;
+      if ((horizontalPos >= _registerX - 1) && (horizontalPos <= _registerX + 1))
       {
-        _cycleCount = 0;
-        _registerX = 1;
-        _signal = 0;
-        _crt = new StringBuilder();
+        pixel = '#';
+      }
+      else
+      {
+        pixel = '.';
       }
 
-      public int GetSignal() => _signal;
+      _crt.Append(pixel);
+    }
 
-      public string GetDrawing() => _crt.ToString();
-
-      public void NoOp()
-      {
-        AdvanceCycle();
-      }
-
-      public void AddX(int x)
-      {
-        AdvanceCycle();
-        AdvanceCycle();
-        _registerX += x;
-      }
-
-      private void AdvanceCycle()
-      {
-        DrawPixel();
-
-        _cycleCount++;
-        if (ShouldTrackSignal())
-          _signal += _registerX * _cycleCount;
-
-        if (_cycleCount % 40 == 0)
-          _crt.AppendLine();
-      }
-
-      private void DrawPixel()
-      {
-        char pixel;
-        var horizontalPos = _cycleCount % 40;
-        if ((horizontalPos >= _registerX - 1) && (horizontalPos <= _registerX + 1))
-        {
-          pixel = '#';
-        }
-        else
-        {
-          pixel = '.';
-        }
-
-        _crt.Append(pixel);
-      }
-
-      private bool ShouldTrackSignal()
-      {
-        return _cycleCount % 40 == 20;
-      }
+    private bool ShouldTrackSignal()
+    {
+      return _cycleCount % 40 == 20;
     }
   }
 }
