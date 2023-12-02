@@ -5,6 +5,9 @@ namespace AdventOfCode2023.Day1;
 
 public class Day1Problems : Problems
 {
+  private static readonly Regex BasicDigitRegex = new("\\d", RegexOptions.Compiled);
+  private static readonly Regex LetterDigitRegex = new("(?=(\\d|one|two|three|four|five|six|seven|eight|nine))", RegexOptions.Compiled);
+  
   public override string TestInput => @"two1nine
 eightwothree
 abcone2threexyz
@@ -32,8 +35,7 @@ zoneight234
 
   private static int ParseDigitsFromString(string inputLine)
   {
-    var digitRegex = new Regex("\\d");
-    var digits = digitRegex.Matches(inputLine).ToArray();
+    var digits = BasicDigitRegex.Matches(inputLine).ToArray();
     var firstDigit = digits.First().ToString()[0];
     var lastDigit = digits.Last().ToString()[0];
     var foundNumber = $"{firstDigit}{lastDigit}";
@@ -47,8 +49,7 @@ zoneight234
   
   private static int ConvertToDigitsWithLetters(string inputLine)
   {
-    var digitRegex = new Regex("(?=(\\d|one|two|three|four|five|six|seven|eight|nine))");
-    var digits = digitRegex.Matches(inputLine).ToArray();
+    var digits = LetterDigitRegex.Matches(inputLine).ToArray();
     var firstDigit = PreprocessDigitString(digits.First().Groups[1].ToString());
     var lastDigit = PreprocessDigitString(digits.Last().Groups[1].ToString());
     var foundNumber = $"{firstDigit}{lastDigit}";

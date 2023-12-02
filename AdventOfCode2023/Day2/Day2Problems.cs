@@ -5,6 +5,10 @@ namespace AdventOfCode2023.Day2
 {
   public class Day2Problems : Problems
   {
+    private static readonly Regex RedRegex = new("(\\d+) red", RegexOptions.Compiled);
+    private static readonly Regex BlueRegex = new("(\\d+) blue", RegexOptions.Compiled);
+    private static readonly Regex GreenRegex = new("(\\d+) green", RegexOptions.Compiled);
+    
     public override string TestInput => @"Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
 Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
@@ -37,6 +41,7 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green";
       
       return idSum;
     }
+    
     private static int CalculateTotalMinCubePower(string[] input)
     {
       var sum = 0;
@@ -95,13 +100,9 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green";
 
       public GameResult(string rawInput)
       {
-        var redRegex = new Regex("(\\d+) red", RegexOptions.Compiled);
-        var blueRegex = new Regex("(\\d+) blue", RegexOptions.Compiled);
-        var greenRegex = new Regex("(\\d+) green", RegexOptions.Compiled);
-        
-        var redMatch = redRegex.Match(rawInput);
-        var blueMatch = blueRegex.Match(rawInput);
-        var greenMatch = greenRegex.Match(rawInput);
+        var redMatch = RedRegex.Match(rawInput);
+        var blueMatch = BlueRegex.Match(rawInput);
+        var greenMatch = GreenRegex.Match(rawInput);
 
         RedCubes = redMatch.Success ? int.Parse(redMatch.Groups[1].ToString()) : 0;
         BlueCubes = blueMatch.Success ? int.Parse(blueMatch.Groups[1].ToString()) : 0;
