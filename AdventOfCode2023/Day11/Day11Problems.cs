@@ -4,7 +4,7 @@ namespace AdventOfCode2023.Day11;
 
 public class Day11Problems : Problems
 {
-  public override string TestInput => @"Monkey 0:
+  protected override string TestInput => @"Monkey 0:
   Starting items: 79, 98
   Operation: new = old * 19
   Test: divisible by 23
@@ -32,9 +32,9 @@ Monkey 3:
     If true: throw to monkey 0
     If false: throw to monkey 1";
 
-  public override int Day => 11;
+  protected override int Day => 11;
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     var monkeyList = new List<Monkey>();
 
@@ -103,7 +103,7 @@ Monkey 3:
     return (orderedCounts[0] * orderedCounts[1]).ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     var monkeyList = new List<Monkey>();
 

@@ -4,19 +4,21 @@ namespace AdventOfCode2023.Day4;
 
 public class Day4Problems : Problems
 {
-  public override string TestInput => @"2-4,6-8
+  protected override string TestInput => @"2-4,6-8
 2-3,4-5
 5-7,7-9
 2-8,3-7
 6-6,4-6
 2-6,4-8";
-  public override int Day => 4;
-  public override string Problem1(string[] input, bool isTestInput)
+
+  protected override int Day => 4;
+
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     return CalculateDuplicateAssignmentScore(input).ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     return CalculateOverlapAssignmentScore(input).ToString();
   }

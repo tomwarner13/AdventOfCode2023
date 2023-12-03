@@ -7,8 +7,8 @@ public class Day1Problems : Problems
 {
   private static readonly Regex BasicDigitRegex = new("\\d", RegexOptions.Compiled);
   private static readonly Regex LetterDigitRegex = new("(?=(\\d|one|two|three|four|five|six|seven|eight|nine))", RegexOptions.Compiled);
-  
-  public override string TestInput => @"two1nine
+
+  protected override string TestInput => @"two1nine
 eightwothree
 abcone2threexyz
 xtwone3four
@@ -16,14 +16,14 @@ xtwone3four
 zoneight234
 7pqrstsixteen";
 
-  public override int Day => 1;
+  protected override int Day => 1;
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     return CalculateDigitSum(input).ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     return CalculateDigitSumWithLetters(input).ToString();
   }
@@ -42,7 +42,7 @@ zoneight234
     return int.Parse(foundNumber);
   }
   
-  public static int CalculateDigitSumWithLetters(IEnumerable<string> input)
+  private static int CalculateDigitSumWithLetters(IEnumerable<string> input)
   {
     return input.Sum(ConvertToDigitsWithLetters);
   }

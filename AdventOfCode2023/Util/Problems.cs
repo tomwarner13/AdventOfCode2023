@@ -2,14 +2,14 @@
 
 public abstract class Problems
 {
-  public abstract string TestInput { get; }
+  protected abstract string TestInput { get; }
 
   private string FullInputFilePath => $"Day{Day}\\D{Day}.txt";
 
-  public abstract int Day { get; }
+  protected abstract int Day { get; }
 
-  public abstract string Problem1(string[] input, bool isTestInput);
-  public abstract string Problem2(string[] input, bool isTestInput);
+  protected abstract string Problem1(string[] input, bool isTestInput);
+  protected abstract string Problem2(string[] input, bool isTestInput);
 
   public string Problem1TestInput()
   {

@@ -5,7 +5,7 @@ namespace AdventOfCode2023.Day13;
 
 public class Day13Problems : Problems
 {
-  public override string TestInput => @"[1,1,3,1,1]
+  protected override string TestInput => @"[1,1,3,1,1]
 [1,1,5,1,1]
 
 [[1],[2,3,4]]
@@ -29,9 +29,9 @@ public class Day13Problems : Problems
 [1,[2,[3,[4,[5,6,7]]]],8,9]
 [1,[2,[3,[4,[5,6,0]]]],8,9]";
 
-  public override int Day => 13;
+  protected override int Day => 13;
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     JArray packet1 = null;
     JArray packet2 = null;
@@ -74,7 +74,7 @@ public class Day13Problems : Problems
     return result.ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     const string divider1 = "[[2]]";
     const string divider2 = "[[6]]";

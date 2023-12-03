@@ -5,7 +5,7 @@ namespace AdventOfCode2023.Day10;
 
 public class Day10Problems : Problems
 {
-  public override string TestInput => @"addx 15
+  protected override string TestInput => @"addx 15
 addx -11
 addx 6
 addx -3
@@ -152,9 +152,9 @@ noop
 noop
 noop";
 
-  public override int Day => 10;
+  protected override int Day => 10;
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     var cpu = new Cpu();
 
@@ -175,7 +175,7 @@ noop";
     return cpu.GetSignal().ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     var cpu = new Cpu();
 

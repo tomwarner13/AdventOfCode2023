@@ -6,7 +6,7 @@ namespace AdventOfCode2023.Day5;
 
 public class Day5Problems : Problems
 {
-  public override string TestInput => @"    [D]    
+  protected override string TestInput => @"    [D]    
 [N] [C]    
 [Z] [M] [P]
  1   2   3 
@@ -15,11 +15,12 @@ move 1 from 2 to 1
 move 3 from 1 to 3
 move 2 from 2 to 1
 move 1 from 1 to 2";
-  public override int Day => 5;
+
+  protected override int Day => 5;
 
   private readonly Regex MovePattern = new("move (\\d+) from (\\d+) to (\\d+)", RegexOptions.Compiled);
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     //first lines: use a stack to get the lines in the correct order when we encounter the line with numbers on it
     var settingUp = true;
@@ -87,7 +88,7 @@ move 1 from 1 to 2";
     return result.ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     var settingUp = true;
     var moving = false;

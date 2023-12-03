@@ -4,7 +4,7 @@ namespace AdventOfCode2023.Day9;
 
 public class Day9Problems : Problems
 {
-  public override string TestInput => @"R 4
+  protected override string TestInput => @"R 4
 U 4
 L 3
 D 1
@@ -13,9 +13,9 @@ D 1
 L 5
 R 2";
 
-  public override int Day => 9;
+  protected override int Day => 9;
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     var directions = ParseInputDirections(input);
 
@@ -36,7 +36,7 @@ R 2";
     return positionsVisitedByTail.Count.ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     var directions = ParseInputDirections(input);
 

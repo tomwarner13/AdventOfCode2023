@@ -4,11 +4,11 @@ namespace AdventOfCode2023.Day17;
 
 public class Day17Problems : Problems
 {
-  public override string TestInput => @">>><<><>><<<>><>>><<<>>><<<><<<>><>><<>>";
+  protected override string TestInput => @">>><<><>><<<>><>>><<<>>><<<><<<>><>><<>>";
 
-  public override int Day => 17;
+  protected override int Day => 17;
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     var directions = ParseInput(input[0]);
 
@@ -68,7 +68,7 @@ public class Day17Problems : Problems
     return chamber.TallestPoint.ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
 
     var directions = ParseInput(input[0]);

@@ -4,15 +4,15 @@ namespace AdventOfCode2023.Day12;
 
 public class Day12Problems : Problems
 {
-  public override string TestInput => @"Sabqponm
+  protected override string TestInput => @"Sabqponm
 abcryxxl
 accszExk
 acctuvwj
 abdefghi";
 
-  public override int Day => 12;
+  protected override int Day => 12;
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     GridPoint start = new(-1, -1);
     GridPoint end = new(-1, -1);
@@ -55,7 +55,7 @@ abdefghi";
     return result.ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     GridPoint start = new(-1, -1);
     GridPoint end = new(-1, -1);

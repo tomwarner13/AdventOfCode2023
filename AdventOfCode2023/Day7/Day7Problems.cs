@@ -4,7 +4,7 @@ namespace AdventOfCode2023.Day7;
 
 public class Day7Problems : Problems
 {
-  public override string TestInput => @"$ cd /
+  protected override string TestInput => @"$ cd /
 $ ls
 dir a
 14848514 b.txt
@@ -29,11 +29,11 @@ $ ls
 7214296 k";
 
 
-  public override int Day => 7;
+  protected override int Day => 7;
 
   private const int MaxDirSizeToCount = 100000;
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     var rootDirectory = new Directory((Directory)null, "/");
     var currentDirectory = rootDirectory;
@@ -94,7 +94,7 @@ $ ls
     return total.ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     var rootDirectory = new Directory((Directory)null, "/");
     var currentDirectory = rootDirectory;

@@ -4,12 +4,12 @@ namespace AdventOfCode2023.Day14;
 
 public class Day14Problems : Problems
 {
-  public override string TestInput => @"498,4 -> 498,6 -> 496,6
+  protected override string TestInput => @"498,4 -> 498,6 -> 496,6
 503,4 -> 502,4 -> 502,9 -> 494,9";
 
-  public override int Day => 14;
+  protected override int Day => 14;
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     var grid = new RockFormations();
 
@@ -60,7 +60,7 @@ public class Day14Problems : Problems
     return grains.ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     var grid = new RockFormations();
 

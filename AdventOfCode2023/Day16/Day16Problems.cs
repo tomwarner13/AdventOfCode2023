@@ -9,7 +9,7 @@ public class Day16Problems : Problems
   private Dictionary<string, int> _routeCache = new Dictionary<string, int>();
   private Dictionary<int, int> _bestFlowRateAtStep = new Dictionary<int, int>();
 
-  public override string TestInput => @"Valve AA has flow rate=0; tunnels lead to valves DD, II, BB
+  protected override string TestInput => @"Valve AA has flow rate=0; tunnels lead to valves DD, II, BB
 Valve BB has flow rate=13; tunnels lead to valves CC, AA
 Valve CC has flow rate=2; tunnels lead to valves DD, BB
 Valve DD has flow rate=20; tunnels lead to valves CC, AA, EE
@@ -20,9 +20,9 @@ Valve HH has flow rate=22; tunnel leads to valve GG
 Valve II has flow rate=0; tunnels lead to valves AA, JJ
 Valve JJ has flow rate=21; tunnel leads to valve II";
 
-  public override int Day => 16;
+  protected override int Day => 16;
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     _iterations = 0;
 
@@ -41,7 +41,7 @@ Valve JJ has flow rate=21; tunnel leads to valve II";
     return bestRoute.ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     _iterations = 0;
     _routeCache = new Dictionary<string, int>();

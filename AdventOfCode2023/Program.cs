@@ -1,11 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using AdventOfCode2023.Day2;
+using AdventOfCode2023.Day3;
 using AdventOfCode2023.Util;
 
-var problems = new Day2Problems();
+var problems = new Day3Problems();
 DoAllProblems(problems);
-
 
 
 void DoAllProblems(Problems probs)
@@ -34,7 +33,6 @@ void TryPrintResult(Func<string> attempter, string description)
     Console.WriteLine($"{description} failed:");
     Console.WriteLine(e);
   }
-
 
   Console.WriteLine();
 }

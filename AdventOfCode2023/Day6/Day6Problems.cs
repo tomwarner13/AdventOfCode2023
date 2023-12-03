@@ -4,11 +4,11 @@ namespace AdventOfCode2023.Day6;
 
 public class Day6Problems : Problems
 {
-  public override string TestInput => @"zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw";
+  protected override string TestInput => @"zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw";
 
-  public override int Day => 6;
+  protected override int Day => 6;
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     var line = input[0];
     var buf = new Queue<char>();
@@ -32,7 +32,7 @@ public class Day6Problems : Problems
     throw new ArgumentException();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     var line = input[0];
     var buf = new Queue<char>();

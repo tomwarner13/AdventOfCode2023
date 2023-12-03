@@ -5,7 +5,7 @@ namespace AdventOfCode2023.Day15;
 
 public class Day15Problems : Problems
 {
-  public override string TestInput => @"Sensor at x=2, y=18: closest beacon is at x=-2, y=15
+  protected override string TestInput => @"Sensor at x=2, y=18: closest beacon is at x=-2, y=15
 Sensor at x=9, y=16: closest beacon is at x=10, y=16
 Sensor at x=13, y=2: closest beacon is at x=15, y=3
 Sensor at x=12, y=14: closest beacon is at x=10, y=16
@@ -20,9 +20,9 @@ Sensor at x=16, y=7: closest beacon is at x=15, y=3
 Sensor at x=14, y=3: closest beacon is at x=15, y=3
 Sensor at x=20, y=1: closest beacon is at x=15, y=3";
 
-  public override int Day => 15;
+  protected override int Day => 15;
 
-  public override string Problem1(string[] input, bool isTestInput)
+  protected override string Problem1(string[] input, bool isTestInput)
   {
     var validSensors = new List<Sensor>();
     var beaconsOnHorizontalRow = new HashSet<GridPoint>();
@@ -64,7 +64,7 @@ Sensor at x=20, y=1: closest beacon is at x=15, y=3";
     return totalExcludedPoints.ToString();
   }
 
-  public override string Problem2(string[] input, bool isTestInput)
+  protected override string Problem2(string[] input, bool isTestInput)
   {
     var allSensors = new List<Sensor>();
       
