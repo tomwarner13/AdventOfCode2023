@@ -6,157 +6,157 @@ namespace AdventOfCode2023.Day5;
 
 public class Day5Problems : Problems
 {
-  protected override string TestInput => @"    [D]    
-[N] [C]    
-[Z] [M] [P]
- 1   2   3 
+  protected override string TestInput => @"seeds: 79 14 55 13
 
-move 1 from 2 to 1
-move 3 from 1 to 3
-move 2 from 2 to 1
-move 1 from 1 to 2";
+seed-to-soil map:
+50 98 2
+52 50 48
+
+soil-to-fertilizer map:
+0 15 37
+37 52 2
+39 0 15
+
+fertilizer-to-water map:
+49 53 8
+0 11 42
+42 0 7
+57 7 4
+
+water-to-light map:
+88 18 7
+18 25 70
+
+light-to-temperature map:
+45 77 23
+81 45 19
+68 64 13
+
+temperature-to-humidity map:
+0 69 1
+1 0 69
+
+humidity-to-location map:
+60 56 37
+56 93 4";
 
   protected override int Day => 5;
 
-  private readonly Regex MovePattern = new("move (\\d+) from (\\d+) to (\\d+)", RegexOptions.Compiled);
-
   protected override string Problem1(string[] input, bool isTestInput)
   {
-    //first lines: use a stack to get the lines in the correct order when we encounter the line with numbers on it
-    var settingUp = true;
-    var moving = false;
-    var setupLines = new Stack<string>();
-    Stack<char>[] crateStacks = null;
-
-    foreach (var line in input)
-    {
-      if (settingUp)
-      {
-        if (line.StartsWith('[') || line.StartsWith("  "))
-        {
-          setupLines.Push(line);
-        }
-        else
-        {
-          var nums = line.Split(' ').Where(s => !string.IsNullOrWhiteSpace(s));
-          var numberOfStacks = nums.Count();
-          crateStacks = new Stack<char>[numberOfStacks];
-          for (var i = 0; i < numberOfStacks; i++)
-          {
-            crateStacks[i] = new Stack<char>();
-          }
-          settingUp = false;
-        }
-      }
-      else if (moving)
-      {
-        var match = MovePattern.Matches(line).First();
-        var totalToMove = int.Parse(match.Groups[1].Value);
-        var source = int.Parse(match.Groups[2].Value) - 1;
-        var dest = int.Parse(match.Groups[3].Value) - 1;
-
-        for (var i = 0; i < totalToMove; i++)
-        {
-          crateStacks[dest].Push(crateStacks[source].Pop());
-        }
-
-      }
-      else //this will only get called on the blank line
-      {
-        while (setupLines.TryPop(out var curLine))
-        {
-          var chunks = curLine.Chunk(4).Select(s => new string(s));
-          var i = 0;
-          foreach (var chunk in chunks)
-          {
-            if (Regex.IsMatch(chunk, "\\[\\w\\]"))
-              crateStacks[i].Push(chunk[1]);
-            i++;
-          }
-        }
-
-        moving = true;
-      }
-    }
-
-    var result = new StringBuilder();
-    foreach (var stack in crateStacks)
-    {
-      result.Append(stack.Pop());
-    }
-
-    return result.ToString();
+    return ParseAndTranslateSeedMaps(input).ToString();
+    throw new NotImplementedException();
   }
 
-  protected override string Problem2(string[] input, bool isTestInput)
+  private static long ParseAndTranslateSeedMaps(string[] input)
   {
-    var settingUp = true;
-    var moving = false;
-    var setupLines = new Stack<string>();
-    Stack<char>[] crateStacks = null;
-
+    var seeds = new List<List<long>>();
+    var maps = new List<TranslationMap>();
+    
+    //parse input and build data
     foreach (var line in input)
     {
-      if (settingUp)
+      if (seeds.Count == 0) //first line, add seeds
       {
-        if (line.StartsWith('[') || line.StartsWith("  "))
-        {
-          setupLines.Push(line);
-        }
-        else
-        {
-          var nums = line.Split(' ').Where(s => !string.IsNullOrWhiteSpace(s));
-          var numberOfStacks = nums.Count();
-          crateStacks = new Stack<char>[numberOfStacks];
-          for (var i = 0; i < numberOfStacks; i++)
-          {
-            crateStacks[i] = new Stack<char>();
-          }
-          settingUp = false;
-        }
+        var rawSeeds = StringUtils.ExtractLongsFromString(line);
+        seeds = rawSeeds.Select(i => new List<long> { i }).ToList();
       }
-      else if (moving)
+      else if(!string.IsNullOrWhiteSpace(line)) //we're building maps, and skipping whitespace lines
       {
-        var match = MovePattern.Matches(line).First();
-        var totalToMove = int.Parse(match.Groups[1].Value);
-        var source = int.Parse(match.Groups[2].Value) - 1;
-        var dest = int.Parse(match.Groups[3].Value) - 1;
-        var tempStack = new Stack<char>();
-
-        for (var i = 0; i < totalToMove; i++)
+        var isText = RegexUtils.BasicLetterRegex.IsMatch(line);
+        if (isText) //start new map
         {
-          tempStack.Push(crateStacks[source].Pop());
+          maps.Add(new TranslationMap(line));
         }
-
-        while (tempStack.TryPop(out var c))
+        else //append to existing
         {
-          crateStacks[dest].Push(c);
+          maps.Last().AddItem(line);
         }
-      }
-      else //this will only get called on the blank line
-      {
-        while (setupLines.TryPop(out var curLine))
-        {
-          var chunks = curLine.Chunk(4).Select(s => new string(s));
-          var i = 0;
-          foreach (var chunk in chunks)
-          {
-            if (Regex.IsMatch(chunk, "\\[\\w\\]"))
-              crateStacks[i].Push(chunk[1]);
-            i++;
-          }
-        }
-
-        moving = true;
       }
     }
-
-    var result = new StringBuilder();
-    foreach (var stack in crateStacks)
+    
+    //process seed translations
+    foreach (var seed in seeds)
     {
-      result.Append(stack.Pop());
+      foreach (var map in maps)
+      {
+        var intermediateResult = map.TryTranslate(seed.Last());
+        seed.Add(intermediateResult);
+      }
+    }
+    
+    //find seed with lowest location
+    var lowestSeedStart = long.MaxValue;
+    var lowestFinalLocation = long.MaxValue;
+
+    foreach (var seed in seeds)
+    {
+      var finalLoc = seed.Last();
+      if (finalLoc < lowestFinalLocation)
+      {
+        lowestSeedStart = seed[0];
+        lowestFinalLocation = finalLoc;
+      }
+    }
+    
+    return lowestFinalLocation;
+  }
+  
+  protected override string Problem2(string[] input, bool isTestInput)
+  {
+    throw new NotImplementedException();
+  }
+
+  private class TranslationMap
+  {
+    public readonly string Name;
+    private List<TranslationItem> _items = new();
+
+    public TranslationMap(string name)
+    {
+      Name = name;
     }
 
-    return result.ToString();
+    public void AddItem(string line)
+    {
+      _items.Add(new TranslationItem(line));
+    }
+
+    public long TryTranslate(long i)
+    {
+      var result = i;
+      foreach (var item in _items)
+      {
+        result = item.TryTranslateLong(result);
+        if (result != i) return result; //stop translating once moved
+      }
+
+      return result;
+    }
+
+    public override string ToString() => Name;
+  }
+
+  private class TranslationItem
+  {
+    public readonly long Start;
+    public readonly long End;
+    public readonly long TransformByAmount;
+
+    public TranslationItem(string rawInput)
+    {
+      var numbers = StringUtils.ExtractLongsFromString(rawInput).ToArray();
+      Start = numbers[1];
+      End = (Start + numbers[2]) - 1;
+      TransformByAmount = (numbers[0] - Start);
+    }
+
+    public long TryTranslateLong(long i)
+    {
+      if (i >= Start && i <= End) return i + TransformByAmount;
+      return i;
+    }
+    
+    public override string ToString() => $"{Start} | {End} | {TransformByAmount}";
   }
 }
