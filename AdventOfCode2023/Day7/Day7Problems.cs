@@ -4,220 +4,186 @@ namespace AdventOfCode2023.Day7;
 
 public class Day7Problems : Problems
 {
-  protected override string TestInput => @"$ cd /
-$ ls
-dir a
-14848514 b.txt
-8504156 c.dat
-dir d
-$ cd a
-$ ls
-dir e
-29116 f
-2557 g
-62596 h.lst
-$ cd e
-$ ls
-584 i
-$ cd ..
-$ cd ..
-$ cd d
-$ ls
-4060174 j
-8033020 d.log
-5626152 d.ext
-7214296 k";
+  protected override string TestInput => @"32T3K 765
+T55J5 684
+KK677 28
+KTJJT 220
+QQQJA 483";
 
 
   protected override int Day => 7;
 
-  private const int MaxDirSizeToCount = 100000;
-
   protected override string Problem1(string[] input, bool isTestInput)
   {
-    var rootDirectory = new Directory((Directory)null, "/");
-    var currentDirectory = rootDirectory;
-    var allDirectories = new List<Directory> { rootDirectory };
+    return DoHandCalculations(input, false).ToString();
+  }
 
-    foreach (var line in input.Select(l => l.Trim()))
+  private static int DoHandCalculations(string[] input, bool hasJokers)
+  {
+    var hands = new List<PokerHand>();
+
+    foreach (var line in input)
     {
-      if (line.StartsWith("$ "))
-      {
-        //handle a command -- either CD to root directory, CD to current parent directory, or CD to child directory
-        var command = line.Substring(2);
-        if (command.StartsWith("cd"))
-        {
-          var target = command.Substring(3);
-          switch (target)
-          {
-            case "/":
-              currentDirectory = rootDirectory;
-              break;
-            case "..":
-              currentDirectory = currentDirectory.Parent;
-              break;
-            default:
-              currentDirectory = currentDirectory.OpenChildDirectory(target);
-              break;
-          }
-        }
-        else //ls, do nothing
-        {
+      var parts = line.Split(' ');
+      var bid = int.Parse(parts[1]);
+      hands.Add(new PokerHand(parts[0], bid, hasJokers));
+    }
+    
+    hands.Sort();
 
-        }
-      }
-      else
-      {
-        //handle a new item -- either "dir <dirname>" or "<filesize> <filename>"
-        if (line.StartsWith("dir"))
-        {
-          var newDirName = line.Substring(4);
-          var newDir = new Directory(currentDirectory, newDirName);
-          allDirectories.Add(newDir);
-          currentDirectory.AddChild(newDir);
-        }
-        else
-        {
-          var parts = line.Split(' ');
-          var size = int.Parse(parts[0]);
-          var name = parts[1];
-          currentDirectory.AddChild(new File(currentDirectory, name, size));
-        }
-      }
+    var sum = 0;
+    for (var i = 1; i <= hands.Count; i++)
+    {
+      sum += (i * hands[i - 1].BidAmount);
     }
 
-    //grotesquely inefficient but processing is cheap
-    var countableDirectories = allDirectories.Where(d => d.CalculateSize() <= MaxDirSizeToCount);
-
-    var total = countableDirectories.Select(d => d.CalculateSize()).Sum();
-
-    return total.ToString();
+    return sum;
   }
 
   protected override string Problem2(string[] input, bool isTestInput)
   {
-    var rootDirectory = new Directory((Directory)null, "/");
-    var currentDirectory = rootDirectory;
-    var allDirectories = new List<Directory> { rootDirectory };
+    return DoHandCalculations(input, true).ToString();
+  }
 
-    foreach (var line in input.Select(l => l.Trim()))
+  private class PokerHand : IComparable<PokerHand>
+  {
+    public readonly int[] Cards;
+
+    public readonly HandType Type;
+
+    public readonly int BidAmount;
+
+    public PokerHand(string rawLine, int bidAmount, bool hasJokers = false) //line will be 5 chars here, so like 'AKKT5'
     {
-      if (line.StartsWith("$ "))
+      if (hasJokers)
       {
-        //handle a command -- either CD to root directory, CD to current parent directory, or CD to child directory
-        var command = line.Substring(2);
-        if (command.StartsWith("cd"))
-        {
-          var target = command.Substring(3);
-          switch (target)
-          {
-            case "/":
-              currentDirectory = rootDirectory;
-              break;
-            case "..":
-              currentDirectory = currentDirectory.Parent;
-              break;
-            default:
-              currentDirectory = currentDirectory.OpenChildDirectory(target);
-              break;
-          }
-        }
-        else //ls, do nothing
-        {
+        Cards = rawLine.Select(CharToNumWithJokers).ToArray();
 
-        }
+        Type = DetermineTypeWithJokers(Cards);
       }
       else
       {
-        //handle a new item -- either "dir <dirname>" or "<filesize> <filename>"
-        if (line.StartsWith("dir"))
-        {
-          var newDirName = line.Substring(4);
-          var newDir = new Directory(currentDirectory, newDirName);
-          allDirectories.Add(newDir);
-          currentDirectory.AddChild(newDir);
-        }
-        else
-        {
-          var parts = line.Split(' ');
-          var size = int.Parse(parts[0]);
-          var name = parts[1];
-          currentDirectory.AddChild(new File(currentDirectory, name, size));
-        }
+        Cards = rawLine.Select(CharToNum).ToArray();
+
+        Type = DetermineType(Cards);
       }
+
+      BidAmount = bidAmount;
     }
-
-    var totalFileSpace = 70000000;
-    var requiredSpace = 30000000;
-
-    var totalSpaceTaken = rootDirectory.CalculateSize();
-    var totalSpaceAvailableForSystem = totalFileSpace - requiredSpace;
-
-    var totalSpaceRequiredToBeFreed = totalSpaceTaken - totalSpaceAvailableForSystem;
-
-    var directoryToDelete = rootDirectory;
-    var currentSizeToDelete = totalSpaceTaken;
-    foreach (var dir in allDirectories)
+    
+    public int CompareTo(PokerHand? other)
     {
-      var dirSize = dir.CalculateSize();
-      if (dirSize > totalSpaceRequiredToBeFreed && dirSize < currentSizeToDelete)
+      if (other == null) return 1;
+
+      if (Type != other.Type)
       {
-        directoryToDelete = dir;
-        currentSizeToDelete = dirSize;
+        return Type > other.Type ? 1 : -1;
+      }
+
+      //compare by highest card (in order)
+      for (var i = 0; i < Cards.Length; i++)
+      {
+        var thisCard = Cards[i];
+        var otherCard = other.Cards[i];
+          
+        if (thisCard > otherCard) return 1;
+        if (thisCard < otherCard) return -1;
+      }
+      
+      //apparently whatever .NET uses for the default sort algo sometimes compares items to themselves!
+      return 0;
+    }
+
+    private static int CharToNum(char c)
+    {
+      return c switch
+      {
+        'T' => 10,
+        'J' => 11,
+        'Q' => 12,
+        'K' => 13,
+        'A' => 14,
+        _ => int.Parse(c.ToString())
+      };
+    }
+    
+    private static int CharToNumWithJokers(char c)
+    {
+      return c switch
+      {
+        'T' => 10,
+        'J' => 1,
+        'Q' => 12,
+        'K' => 13,
+        'A' => 14,
+        _ => int.Parse(c.ToString())
+      };
+    }
+
+    private static HandType DetermineType(int[] cards)
+    {
+      var uniqueCards = cards.ToHashSet();
+      var uniqueCount = uniqueCards.Count;
+
+      switch (uniqueCount)
+      {
+        case 1:
+          return HandType.Fives;
+        
+        case 2: //fours or FH
+          var oneSetCount = cards.Count(c => c == cards[0]);
+          if (oneSetCount == 4 || oneSetCount == 1) return HandType.Fours;
+          return HandType.FullHouse;
+        
+        case 3: //2 pair or 3 of a kind
+          foreach (var testCard in uniqueCards)
+          {
+            if (cards.Count(c => c == testCard) == 3) return HandType.Threes;
+          }
+          return HandType.TwoPair;
+        
+        case 4:
+          return HandType.OnePair;
+        
+        case 5:
+          return HandType.HighCard;
+        
+        default:
+          throw new ThisShouldNeverHappenException("something terribly wrong");
       }
     }
-
-    return currentSizeToDelete.ToString();
-  }
-
-  private abstract class Item
-  {
-    public Directory Parent;
-    public string Name;
-
-    public Item(Directory parent, string name)
+    
+    
+    private static HandType DetermineTypeWithJokers(int[] cards)
     {
-      Parent = parent;
-      Name = name;
-    }
+      //find most common non-joker card, replace all jokers with it
+      var uniqueCards = cards.Where(c => c!= 1).ToHashSet();
+      
+      if (uniqueCards.Count == 0) return HandType.Fives; //all jokers, ha ha ha ha ha ha ha ha
+      if (uniqueCards.Count == 5) return HandType.HighCard; //no jokers, no fun
 
-    public abstract int CalculateSize();
-  }
+      var mostCommonCardDetails =
+        uniqueCards.Select(c => (c, cards.Count(card => card == c)))
+          .MaxBy(d => d.Item2);
 
-  private class Directory : Item
-  {
-    public List<Item> Children;
+      var commonCardNum = mostCommonCardDetails.c;
 
-    public Directory(Directory parent, string name) : base(parent, name)
-    {
-      Children = new List<Item>();
-    }
+      var replacedArray = cards
+        .Select(c => (c == 1 ? commonCardNum : c))
+        .ToArray();
 
-    public void AddChild(Item item)
-    {
-      Children.Add(item);
-    }
-
-    public override int CalculateSize()
-    {
-      return Children.Select(i => i.CalculateSize()).Sum();
-    }
-
-    public Directory OpenChildDirectory(string name)
-    {
-      return (Directory)Children.First(c => c.Name == name);
+      return DetermineType(replacedArray);
     }
   }
 
-  private class File : Item
+  private enum HandType
   {
-    private readonly int Size;
-
-    public File(Directory parent, string name, int size) : base(parent, name)
-    {
-      Size = size;
-    }
-
-    public override int CalculateSize() => Size;
+    HighCard = 0,
+    OnePair = 1,
+    TwoPair = 2,
+    Threes = 3,
+    FullHouse = 4,
+    Fours = 5,
+    Fives = 6
   }
 }
