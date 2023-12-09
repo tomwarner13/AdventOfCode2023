@@ -52,6 +52,41 @@ public class Day9Problems : Problems
 
   protected override string Problem2(string[] input, bool isTestInput)
   {
-    throw new NotImplementedException();
+    long sum = 0;
+    foreach (var line in input)
+    {
+      var rawList = StringUtils.ExtractIntsFromString(line, true).ToList();
+      var nextNumber = RecursivelyAddToBeginningOfSequence(rawList);
+      sum += nextNumber;
+    }
+
+    return sum.ToString();
+  }
+  
+  private static int RecursivelyAddToBeginningOfSequence(List<int> sequence)
+  {
+    var result = new List<int>();
+    var allZeroes = true;
+    int? prevValue = null;
+
+    foreach (var item in sequence)
+    {
+      if (item != 0) allZeroes = false;
+
+      if (prevValue != null)
+      {
+        result.Add(item - prevValue.Value);
+      }
+
+      prevValue = item;
+    }
+
+    if (allZeroes)
+    {
+      return 0;
+    }
+
+    var nextResult = RecursivelyAddToBeginningOfSequence(result);
+    return sequence.First() - nextResult;
   }
 }
