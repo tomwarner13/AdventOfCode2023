@@ -2,9 +2,10 @@
 
 public static class StringUtils
 {
-  public static IEnumerable<int> ExtractIntsFromString(string input)
+  public static IEnumerable<int> ExtractIntsFromString(string input, bool includeNegative = false)
   {
-    var matches = RegexUtils.BasicDigitRegex.Matches(input);
+    var regex = includeNegative ? RegexUtils.BasicDigitNegativeRegex : RegexUtils.BasicDigitRegex;
+    var matches = regex.Matches(input);
     return matches.Select(s => int.Parse(s.ToString()));
   }
   
@@ -14,9 +15,10 @@ public static class StringUtils
     return matches.Select(s => s.ToString());
   }
   
-  public static IEnumerable<long> ExtractLongsFromString(string input)
+  public static IEnumerable<long> ExtractLongsFromString(string input, bool includeNegative = false)
   {
-    var matches = RegexUtils.BasicDigitRegex.Matches(input);
+    var regex = includeNegative ? RegexUtils.BasicDigitNegativeRegex : RegexUtils.BasicDigitRegex;
+    var matches = regex.Matches(input);
     return matches.Select(s => long.Parse(s.ToString()));
   }
   
