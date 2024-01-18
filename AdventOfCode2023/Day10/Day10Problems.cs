@@ -113,7 +113,7 @@ LJ.LJ";
   }
 
   private static bool IsPipeChar(char c)
-    => c == '|' || c == '-' || c == 'L' || c == 'J' || c == '7' || c == 'F';
+    => c is '|' or '-' or 'L' or 'J' or '7' or 'F';
 
   protected override string Problem2(string[] input, bool isTestInput)
   {
